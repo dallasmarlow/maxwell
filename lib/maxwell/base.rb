@@ -3,20 +3,18 @@ require 'logger'
 require 'defaults'
 
 module Maxwell
-  class James
+  class Base
 
-    attr_accessor :config, :options
+    attr_accessor :config
 
     def initialize config = nil
       # merge user defined config with defaults
-      @config  = Maxwell::Defaults.config.merge configure(config)  || {}
-      # merge user defined options with defaults
-      @options = Maxwell::Defaults.options.merge @config[:options] || {}
+      @config = Maxwell::Defaults.config.merge configure(config) || {}
     end
 
     def configure config
       unless config.nil?
-      	# parse user supplied config and store the location for later.
+        # parse user supplied config and store the location for later.
         YAML.load_file(config).merge({config_file: config})
       end rescue abort "ERROR: unable to load config file: #{config}"
     end
